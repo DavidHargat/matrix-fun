@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-//#include <stdint.h>
+
+#include "nmat.h"
 
 typedef struct{
 	char x1, y1, z1;
@@ -102,6 +103,7 @@ void print_matrix(matrix *mat){
 
 int main(int argc, char *argv[]){
 
+	/*
 	matrix *a, *b, *r;
 	
 	a = init_matrix(
@@ -111,9 +113,9 @@ int main(int argc, char *argv[]){
 	);
 
 	b = init_matrix(
-		0, 0, 0,
-		0, 0, 1,
-		0, 0, 0		
+		0, 1, 1,
+		1, 0, 1,
+		1, 1, 0		
 	);
 
 	r = multiply(a,b);
@@ -121,6 +123,10 @@ int main(int argc, char *argv[]){
 	print_matrix(a);
 	print_matrix(b);
 	print_matrix(r);
+	*/
+	
+	print_nmat(create_nmat(4,4));
+	print_nmat(create_nmat(1,4));
 
 	return 0;
 }
