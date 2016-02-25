@@ -125,8 +125,17 @@ int main(int argc, char *argv[]){
 	print_matrix(r);
 	*/
 	
-	print_nmat(create_nmat(4,4));
-	print_nmat(create_nmat(1,4));
+	nmat *m1, *m2;
+	m1 = create_nmat(4, 4);
+	m2 = create_nmat(1, 4);
+
+	m1->data[2][2] = 32;
+
+	print_nmat(m1, 3);
+	printf("%s", "\n *\n\n");
+	print_nmat(m2, 2);
+
+	//print_nmat(create_nmat(1,4));
 
 	return 0;
 }
