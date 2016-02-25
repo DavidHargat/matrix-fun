@@ -33,8 +33,8 @@ nmat *create_nmat(size_t width, size_t height){
 
 	// zero each cell
 	for(y=0; y<height; y++)
-		for(x=0; x<width; x++)
-			m->data[y][x] = 0;
+	for(x=0; x<width;  x++)
+		m->data[y][x] = 0;
 	
 	return m;
 }
@@ -49,14 +49,22 @@ void free_nmat(nmat *m){
 	free(m);
 }
 
-void print_nmat(nmat *m){
+void print_nmat(nmat *m, int spacing){
 	size_t x, y;
+
+	// Custom formatting: we pre-format a format
+	// string so we can get variable-spacing.
+
+	char form[32];
+	sprintf(form, "%%-%dd", spacing);
+
 	for(y=0; y < (m->height); y++){
 		printf("| ");
-		for(x=0; x < (m->width); x++){
-			printf("%d ", m->data[y][x]);
-		}
-		printf("\n");
+		
+		for(x=0; x < (m->width); x++)
+			printf(form, m->data[y][x]);
+		
+		printf("|\n");
 	}
 }
 
