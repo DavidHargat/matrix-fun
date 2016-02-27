@@ -125,15 +125,33 @@ int main(int argc, char *argv[]){
 	print_matrix(r);
 	*/
 	
-	nmat *m1, *m2;
-	m1 = create_nmat(4, 4);
-	m2 = create_nmat(1, 4);
+	nmat *m1, *m2, *mr;
+	
+	m1 = create_nmat(3, 3);
+	m2 = create_nmat(3, 3);
 
-	m1->data[2][2] = 32;
+	m1->data[0][0] = 1; m1->data[0][1] = 2; m1->data[0][2] = 3;
+	m1->data[1][0] = 4; m1->data[1][1] = 5; m1->data[1][2] = 6;	
+	m1->data[2][0] = 8; m1->data[2][1] = 8; m1->data[2][2] = 9;
+
+	m2->data[2][0] = 1;
+	m2->data[1][1] = 1;
+	m2->data[0][2] = 1;
 
 	print_nmat(m1, 3);
-	printf("%s", "\n *\n\n");
-	print_nmat(m2, 2);
+	
+	printf("%s", "\n");
+	
+	print_nmat(m2, 3);
+
+	mr = nmat_multiply(m1, m2);
+
+	if(mr == NULL){
+		printf("%s\n", "multiplication undefined");
+		exit(EXIT_FAILURE);
+	}
+
+	print_nmat(mr, 3);
 
 	//print_nmat(create_nmat(1,4));
 
