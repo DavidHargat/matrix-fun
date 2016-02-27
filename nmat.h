@@ -49,6 +49,32 @@ void free_nmat(nmat *m){
 	free(m);
 }
 
+nmat *nmat_multiply(nmat *a, nmat *b){
+	nmat *result;
+	size_t x, y, i, j;
+
+	// The size of the ROWS in matrix A
+	// must be the same as the size of the
+	// COLUMNS in matrix B.
+	if(a->width == b->height)
+		return NULL;
+
+	result = create_nmat(b->width, b->height);
+
+	for(i=0; i < a->height; i++){
+	for(j=0; j < b->width;  j++){
+		int temp = 0;
+		for(x=0; x < a->width;  x++)
+		for(y=0; y < b->height; y++)
+			temp += a->data[i][x] * b->data[y][j];
+		
+		result[i][j] = temp;
+	}
+	}
+
+	return result;
+}
+
 void print_nmat(nmat *m, int spacing){
 	size_t x, y;
 
