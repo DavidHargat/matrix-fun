@@ -38,6 +38,12 @@ void matrix_set(matrix *m, size_t x, size_t y, float v){
 	m->data[(m->width*y)+x] = v;
 }
 
+void matrix_copy(matrix *m, float *data){
+	size_t size;
+	size = sizeof(float) * (m->width) * (m->height);
+	memcpy(m->data, data, size); 
+}
+
 matrix *matrix_multiply(matrix *a, matrix *b){
 	matrix *result;
 	size_t x, i, j;

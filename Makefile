@@ -10,6 +10,6 @@ run: all
 	./main
 .PHONY: run
 
-main: main.c nmat.h
+main: main.c matrix.h
 	gcc -Wall -o main main.c -I.
 
