@@ -4,12 +4,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct{
 	size_t width;
 	size_t height;
 	float *data;
 } matrix;
+
+float radians_to_degrees(float radians){
+	return radians * (180.0f / M_PI);
+}
+
+float degrees_to_radians(float degrees){
+	return (M_PI * degrees) / 180;
+}
 
 matrix *matrix_create(size_t w, size_t h){
 	matrix *m;
@@ -44,6 +53,76 @@ void matrix_copy(matrix *m, float *data){
 	memcpy(m->data, data, size); 
 }
 
+
+/* The following functions build
+ * matrices for 3D vector rotation.
+ * For example, rotation in the X plane,
+ * where a is the angle:
+ * | 1    0       0       0 |
+ * | 0    cos(a) -sin(a)  0 |
+ * | 0    sin(a)  cos(a)  0 |
+ * | 0    0       0       1 |
+ */
+matrix *matrix_rotate_x(float angle){
+	matrix *result;
+	float acos, asin, a;
+
+	result = matrix_create(4,4);
+	
+	a    = degrees_to_radians(angle);
+	acos = cosf(a);
+	asin = sinf(a);
+	
+	matrix_copy(result, (float[]){
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, acos,-asin, 0.0f,	
+		0.0f, asin, acos, 0.0f,	
+		0.0f, 0.0f, 0.0f, 1.0f	
+	});
+
+	return result;
+}
+
+matrix *matrix_rotate_y(float angle){
+	matrix *result;
+	float acos, asin, a;
+
+	result = matrix_create(4,4);
+	
+	a    = degrees_to_radians(angle);
+	acos = cosf(a);
+	asin = sinf(a);
+	
+	matrix_copy(result, (float[]){
+		 acos, 0.0f, asin, 0.0f,
+		 0.0f, 1.0f,    0, 0.0f,	
+		-asin, 0,    acos, 0.0f,	
+		 0.0f, 0.0f, 0.0f, 1.0f	
+	});
+
+	return result;
+}
+
+matrix *matrix_rotate_z(float angle){
+	matrix *result;
+	float acos, asin, a;
+
+	result = matrix_create(4,4);
+	
+	a    = degrees_to_radians(angle);
+	acos = cosf(a);
+	asin = sinf(a);
+	
+	matrix_copy(result, (float[]){
+		acos,-asin, 0.0f, 0.0f,
+		asin, acos, 0.0f, 0.0f,	
+		0.0f, 0.0f, 1.0f, 0.0f,	
+		0.0f, 0.0f, 0.0f, 1.0f	
+	});
+
+	return result;
+}
+
 matrix *matrix_multiply(matrix *a, matrix *b){
 	matrix *result;
 	size_t x, i, j;
@@ -70,13 +149,13 @@ matrix *matrix_multiply(matrix *a, matrix *b){
 	return result;
 }
 
-void matrix_print(matrix *m, int spacing){
+void matrix_print(matrix *m, int spacing, int precision){
 	size_t x, y;
 
 	// Custom formatting: we pre-format a format
 	// string so we can get variable-spacing.
 	char form[32];
-	sprintf(form, "%%-%df", spacing);
+	sprintf(form, "%%-%d.%df", spacing, precision);
 
 	for(y=0; y < (m->height); y++){
 		printf("%s", "| ");

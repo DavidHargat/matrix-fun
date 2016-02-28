@@ -1,4 +1,9 @@
 
+SRC=main.c
+DEP=matrix.h
+LIB=-lm
+OPT=-Wall -I.
+
 all: main
 .PHONY: all
 
@@ -10,6 +15,6 @@ run: all
 	./main
 .PHONY: run
 
-main: main.c matrix.h
-	gcc -Wall -o main main.c -I.
+main: $(SRC) $(DEP)
+	gcc $(OPT) -o $@ $^ $(LIB)
 
